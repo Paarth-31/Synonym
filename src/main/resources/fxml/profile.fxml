@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.aiexplorer.controller.ProfileController" styleClass="root-pane">
+
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="20" style="-fx-background-color: #0a0a0a;">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="My Profile" style="-fx-font-size: 28px; -fx-font-weight: 900; -fx-text-fill: #ffffff;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Close" style="-fx-background-color: #3a3a3a; -fx-text-fill: #ffffff; -fx-padding: 8 16; -fx-background-radius: 6; -fx-cursor: hand;"/>
+            </HBox>
+
+            <VBox spacing="20" style="-fx-max-width: 600px; -fx-padding: 30; -fx-background-color: #1a1a1a; -fx-border-color: #3a3a3a; -fx-border-width: 1; -fx-border-radius: 10;">
+
+                <VBox alignment="CENTER" spacing="10">
+                    <Label text="👤" style="-fx-font-size: 64px;"/>
+                    <Button text="Change Profile Picture" style="-fx-background-color: #9c27b0; -fx-text-fill: #ffffff; -fx-padding: 8 16; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                </VBox>
+
+                <Separator/>
+
+                <VBox spacing="15">
+                    <HBox spacing="10">
+                        <Label text="Full Name:" style="-fx-text-fill: #c0c0c0; -fx-font-weight: 600; -fx-min-width: 120;"/>
+                        <Label fx:id="fullNameLabel" text="User Name" style="-fx-text-fill: #ffffff;"/>
+                    </HBox>
+
+                    <HBox spacing="10">
+                        <Label text="Email:" style="-fx-text-fill: #c0c0c0; -fx-font-weight: 600; -fx-min-width: 120;"/>
+                        <Label fx:id="emailLabel" text="user@example.com" style="-fx-text-fill: #ffffff;"/>
+                    </HBox>
+
+                    <HBox spacing="10">
+                        <Label text="Username:" style="-fx-text-fill: #c0c0c0; -fx-font-weight: 600; -fx-min-width: 120;"/>
+                        <Label fx:id="usernameLabel" text="username" style="-fx-text-fill: #ffffff;"/>
+                    </HBox>
+
+                    <HBox spacing="10">
+                        <Label text="Member Since:" style="-fx-text-fill: #c0c0c0; -fx-font-weight: 600; -fx-min-width: 120;"/>
+                        <Label fx:id="joinDateLabel" text="Nov 5, 2025" style="-fx-text-fill: #ffffff;"/>
+                    </HBox>
+                </VBox>
+
+                <Separator/>
+
+                <HBox spacing="10">
+                    <Button text="Edit Profile" style="-fx-background-color: #9c27b0; -fx-text-fill: #ffffff; -fx-padding: 10 20; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-weight: 600;" HBox.hgrow="ALWAYS" prefWidth="Infinity"/>
+                    <Button text="Change Password" style="-fx-background-color: #3a3a3a; -fx-text-fill: #ffffff; -fx-padding: 10 20; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-weight: 600;" HBox.hgrow="ALWAYS" prefWidth="Infinity"/>
+                </HBox>
+
+            </VBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>

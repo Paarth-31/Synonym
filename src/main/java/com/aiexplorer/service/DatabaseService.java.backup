@@ -1,0 +1,195 @@
+package com.aiexplorer.service;
+
+import java.sql.*;
+import java.util.*;
+
+public class DatabaseService {
+    private static DatabaseService instance;
+    
+    // PostgreSQL Connection Details
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/ai_file_explorer";
+    private static final String DB_USER = "postgres";
+    private static final String DB_PASSWORD = "postgres";  // Default PostgreSQL password
+    private static final String DRIVER = "org.postgresql.Driver";
+
+    private DatabaseService() {
+        try {
+            Class.forName(DRIVER);
+            System.out.println("✓ PostgreSQL Driver loaded");
+        } catch (ClassNotFoundException e) {
+            System.err.println("✗ PostgreSQL Driver not found");
+            e.printStackTrace();
+        }
+    }
+
+    public static synchronized DatabaseService getInstance() {
+        if (instance == null) {
+            instance = new DatabaseService();
+        }
+        return instance;
+    }
+
+    /**
+     * Get a database connection
+     */
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+    }
+
+    /**
+     * Initialize/Create database tables if they don't exist
+     */
+    public void ensureTablesExist() {
+        try (Connection conn = getConnection()) {
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS media_files (" +
+                    "id SERIAL PRIMARY KEY," +
+                    "name TEXT NOT NULL UNIQUE," +
+                    "keywords TEXT," +
+                    "genre DECIMAL(5,2)," +
+                    "file_location TEXT NOT NULL," +
+                    "confidence_score DECIMAL(5,3)," +
+                    "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                    "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                    ")";
+
+            try (Statement stmt = conn.createStatement()) {
+                stmt.execute(createTableSQL);
+                System.out.println("✓ media_files table verified/created");
+            }
+        } catch (SQLException e) {
+            System.err.println("✗ Error creating table: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Save or update file analysis results
+     */
+    public boolean saveOrUpdateFileAnalysis(String name, String keywords, double genre, 
+                                            String fileLocation, double confidenceScore) {
+        String upsertSQL = "INSERT INTO media_files (name, keywords, genre, file_location, confidence_score) " +
+                "VALUES (?, ?, ?, ?, ?) " +
+                "ON CONFLICT (name) DO UPDATE SET " +
+                "keywords = EXCLUDED.keywords, " +
+                "genre = EXCLUDED.genre, " +
+                "file_location = EXCLUDED.file_location, " +
+                "confidence_score = EXCLUDED.confidence_score, " +
+                "updated_at = CURRENT_TIMESTAMP";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(upsertSQL)) {
+
+            pstmt.setString(1, name);
+            pstmt.setString(2, keywords);
+            pstmt.setDouble(3, genre);
+            pstmt.setString(4, fileLocation);
+            pstmt.setDouble(5, confidenceScore);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            System.err.println("✗ Error saving file analysis: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Get all analyzed files
+     */
+    public List<FileAnalysisRecord> getAllAnalyzedFiles() {
+        List<FileAnalysisRecord> records = new ArrayList<>();
+        String selectSQL = "SELECT name, keywords, genre, file_location, confidence_score, created_at FROM media_files ORDER BY created_at DESC";
+
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(selectSQL)) {
+
+            while (rs.next()) {
+                records.add(new FileAnalysisRecord(
+                    rs.getString("name"),
+                    rs.getString("keywords"),
+                    rs.getDouble("genre"),
+                    rs.getString("file_location"),
+                    rs.getDouble("confidence_score"),
+                    rs.getTimestamp("created_at")
+                ));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("✗ Error retrieving files: " + e.getMessage());
+        }
+
+        return records;
+    }
+
+    /**
+     * Get file by name
+     */
+    public FileAnalysisRecord getFileByName(String name) {
+        String selectSQL = "SELECT name, keywords, genre, file_location, confidence_score, created_at FROM media_files WHERE name = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
+
+            pstmt.setString(1, name);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new FileAnalysisRecord(
+                    rs.getString("name"),
+                    rs.getString("keywords"),
+                    rs.getDouble("genre"),
+                    rs.getString("file_location"),
+                    rs.getDouble("confidence_score"),
+                    rs.getTimestamp("created_at")
+                );
+            }
+
+        } catch (SQLException e) {
+            System.err.println("✗ Error retrieving file: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    /**
+     * Delete file record
+     */
+    public boolean deleteFile(String name) {
+        String deleteSQL = "DELETE FROM media_files WHERE name = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(deleteSQL)) {
+
+            pstmt.setString(1, name);
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.err.println("✗ Error deleting file: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Data class for file analysis records
+     */
+    public static class FileAnalysisRecord {
+        public String name;
+        public String keywords;
+        public double genre;
+        public String fileLocation;
+        public double confidenceScore;
+        public Timestamp createdAt;
+
+        public FileAnalysisRecord(String name, String keywords, double genre, 
+                                String fileLocation, double confidenceScore, Timestamp createdAt) {
+            this.name = name;
+            this.keywords = keywords;
+            this.genre = genre;
+            this.fileLocation = fileLocation;
+            this.confidenceScore = confidenceScore;
+            this.createdAt = createdAt;
+        }
+    }
+}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="mainBorderPane" styleClass="root-pane"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.aiexplorer.controller.SignupController">
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background: transparent; -fx-control-inner-background: transparent;">
+            <VBox alignment="TOP_CENTER" spacing="0" style="-fx-background-color: linear-gradient(to bottom, #0a0a0a, #1a1a1a); -fx-padding: 40 20;" VBox.vgrow="ALWAYS">
+
+                <VBox alignment="CENTER" spacing="12" style="-fx-padding: 0 0 30 0;">
+                    <Label text="SYNONYM" styleClass="title-logo"/>
+                    <Label text="Create Your Account" style="-fx-font-size: 16px; -fx-text-fill: #9c27b0; -fx-font-weight: 600;"/>
+                </VBox>
+
+                <VBox styleClass="form-container" style="-fx-max-height: 700;">
+
+                    <VBox styleClass="form-field-box">
+                        <Label text="Full Name" styleClass="form-label"/>
+                        <TextField fx:id="fullNameField" promptText="Enter your full name" styleClass="text-field"/>
+                    </VBox>
+
+                    <VBox styleClass="form-field-box">
+                        <Label text="Email" styleClass="form-label"/>
+                        <TextField fx:id="emailField" promptText="Enter your email" styleClass="text-field"/>
+                    </VBox>
+
+                    <VBox styleClass="form-field-box">
+                        <Label text="Username" styleClass="form-label"/>
+                        <TextField fx:id="usernameField" promptText="3-20 characters (alphanumeric)" styleClass="text-field"/>
+                    </VBox>
+
+                    <VBox styleClass="form-field-box">
+                        <Label text="Password" styleClass="form-label"/>
+                        <PasswordField fx:id="passwordField" promptText="8+ chars, uppercase, lowercase, digit, special" styleClass="text-field"/>
+                        <ProgressBar fx:id="strengthBar" prefHeight="4" style="-fx-padding: 8 0; -fx-accent: #e81123;"/>
+                        <Label fx:id="strengthLabel" text="" style="-fx-font-size: 11px; -fx-padding: 4 0 0 0;"/>
+                    </VBox>
+
+                    <VBox styleClass="form-field-box">
+                        <Label text="Confirm Password" styleClass="form-label"/>
+                        <PasswordField fx:id="confirmPasswordField" promptText="Confirm your password" styleClass="text-field"/>
+                    </VBox>
+
+                    <Label fx:id="errorLabel" text="" styleClass="error-label" style="-fx-padding: 8 0;"/>
+
+                    <Button fx:id="signupButton" text="CREATE ACCOUNT" prefHeight="48" maxWidth="Infinity"
+                            styleClass="primary-button" style="-fx-padding: 14 24; -fx-font-size: 14px; -fx-padding: 12 0;"/>
+
+                    <Button fx:id="backButton" text="Back to Login" prefHeight="40" maxWidth="Infinity"
+                            styleClass="secondary-button" style="-fx-padding: 12 0;"/>
+
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
