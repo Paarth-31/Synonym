@@ -1,21 +1,23 @@
 package com.aiexplorer.controller;
 
 import com.aiexplorer.service.DatabaseService;
-import com.aiexplorer.util.ValidationUtil; // Using your util
+import com.aiexplorer.util.ValidationUtil;
+import com.aiexplorer.util.SceneNavigator;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox; // Import VBox
+import javafx.scene.layout.VBox;
 
 public class ForgotPasswordController {
-    @FXML private AnchorPane root;
+
     @FXML private TextField emailField;
     @FXML private PasswordField newPasswordField;
     @FXML private PasswordField confirmPasswordField;
     @FXML private Button resetButton;
-    @FXML private Label errorLabel; // Was messageLabel
-    @FXML private Button backButton; // Was backToLoginLink
-
+    @FXML private Label errorLabel;
+    @FXML private Button backButton;
     @FXML private VBox newPasswordBox;
     @FXML private VBox confirmPasswordBox;
 
@@ -25,32 +27,41 @@ public class ForgotPasswordController {
     @FXML
     public void initialize() {
         setStep(1);
-
-        resetButton.setOnAction(event -> handlePasswordReset());
-        backButton.setOnAction(event -> navigateToLogin());
     }
 
     private void setStep(int step) {
         if (step == 1) {
             emailVerified = false;
             emailField.setDisable(false);
-            newPasswordBox.setVisible(false);
-            newPasswordBox.setManaged(false);
-            confirmPasswordBox.setVisible(false);
-            confirmPasswordBox.setManaged(false);
+
+            if (newPasswordBox != null) {
+                newPasswordBox.setVisible(false);
+                newPasswordBox.setManaged(false);
+            }
+            if (confirmPasswordBox != null) {
+                confirmPasswordBox.setVisible(false);
+                confirmPasswordBox.setManaged(false);
+            }
             resetButton.setText("VERIFY EMAIL");
         } else {
             emailVerified = true;
-            emailField.setDisable(true); // Lock email field
-            newPasswordBox.setVisible(true);
-            newPasswordBox.setManaged(true);
-            confirmPasswordBox.setVisible(true);
-            confirmPasswordBox.setManaged(true);
+            emailField.setDisable(true);
+
+            if (newPasswordBox != null) {
+                newPasswordBox.setVisible(true);
+                newPasswordBox.setManaged(true);
+            }
+            if (confirmPasswordBox != null) {
+                confirmPasswordBox.setVisible(true);
+                confirmPasswordBox.setManaged(true);
+            }
             resetButton.setText("RESET PASSWORD");
         }
     }
 
-    private void handlePasswordReset() {
+    // ADDED @FXML BACK IN
+    @FXML
+    private void handleResetPassword(ActionEvent event) {
         String email = emailField.getText().trim();
 
         if (!emailVerified) {
@@ -58,7 +69,7 @@ public class ForgotPasswordController {
                 showError("Please enter a valid email");
                 return;
             }
-            if (dbService.getUserByEmailOrUsername(email) == null) { // <-- THIS IS THE FIX
+            if (dbService.getUserByEmailOrUsername(email) == null) {
                 showError("Email not found");
                 return;
             }
@@ -79,7 +90,7 @@ public class ForgotPasswordController {
                 return;
             }
 
-            if (newPassword.length() < 8) { // Use stronger validation
+            if (newPassword.length() < 8) {
                 showError("Password must be at least 8 characters");
                 return;
             }
@@ -88,7 +99,7 @@ public class ForgotPasswordController {
                 showSuccess("Password updated successfully!");
                 clearFields();
                 setStep(1);
-                navigateToLogin();
+                goToLogin(event);
             } else {
                 showError("Failed to update password");
             }
@@ -96,13 +107,13 @@ public class ForgotPasswordController {
     }
 
     private void showError(String message) {
-        errorLabel.setStyle("-fx-text-fill: red;");
-        errorLabel.setText("✗ " + message);
+        errorLabel.setStyle("-fx-text-fill: #ff5252;");
+        errorLabel.setText(message);
     }
 
     private void showSuccess(String message) {
-        errorLabel.setStyle("-fx-text-fill: green;");
-        errorLabel.setText("✓ " + message);
+        errorLabel.setStyle("-fx-text-fill: #10b981;");
+        errorLabel.setText(message);
     }
 
     private void clearFields() {
@@ -111,7 +122,10 @@ public class ForgotPasswordController {
         confirmPasswordField.clear();
     }
 
-    private void navigateToLogin() {
-        System.out.println("Navigate to Login");
+    // ADDED @FXML BACK IN
+    @FXML
+    private void goToLogin(ActionEvent event) {
+        Scene scene = SceneNavigator.getSceneFromNode((Node) event.getSource());
+        SceneNavigator.loadScene(scene, "/fxml/login.fxml");
     }
 }

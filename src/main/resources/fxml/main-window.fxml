@@ -4,143 +4,113 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="mainBorderPane" styleClass="root-pane"
+<BorderPane stylesheets="@../styles/dark-professional-theme.css"
             xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.aiexplorer.controller.MainWindowController"
-            style="-fx-background-color: #0a0a0a;">
+            prefWidth="1280" prefHeight="800">
 
     <top>
-        <VBox style="-fx-background-color: #1a1a1a; -fx-border-color: #3a3a3a; -fx-border-width: 0 0 1 0;">
+        <VBox styleClass="top-section">
 
-            <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 12 20;">
-                <Label text="SYNONYM" style="-fx-font-size: 22px; -fx-text-fill: #9c27b0; -fx-font-weight: 900;"/>
-                <Label text="Intelligent File Discovery" style="-fx-font-size: 13px; -fx-text-fill: #b0b0b0;"/>
-                <Region HBox.hgrow="ALWAYS"/>
-                <Button fx:id="homeButton" text="🏠 Home" style="-fx-padding: 8 12; -fx-background-color: #9c27b0; -fx-text-fill: white; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;"/>
-                <Button fx:id="profileButton" text="👤 Profile" style="-fx-padding: 8 12; -fx-background-color: #9c27b0; -fx-text-fill: white; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;"/>
+            <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 15 20;">
+                <Label text="SYNONYM" styleClass="app-title"/>
+                <Label text="Intelligent File Discovery" styleClass="app-subtitle"/>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="homeButton" text="Home" styleClass="nav-btn" onAction="#handleHomeButton"/>
+                <Button fx:id="profileButton" text="Profile" styleClass="nav-btn" onAction="#handleProfileButton"/>
             </HBox>
 
-            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10 20; -fx-background-color: #0a0a0a;">
-                <Button fx:id="backButton" text="◀" style="-fx-padding: 8 12; -fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;"/>
-                <Button fx:id="forwardButton" text="▶" style="-fx-padding: 8 12; -fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;"/>
-                <Button fx:id="upButton" text="▲" style="-fx-padding: 8 12; -fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;"/>
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 20 15 20;">
+                <Button text="&lt;" styleClass="icon-btn"/>
+                <Button text="&gt;" styleClass="icon-btn"/>
+                <Button text="^" styleClass="icon-btn"/>
 
-                <Separator orientation="VERTICAL" prefHeight="20" style="-fx-background-color: #3a3a3a;"/>
+                <TextField fx:id="pathField" text="C:\Users\HP" HBox.hgrow="ALWAYS" styleClass="path-field"/>
 
-                <Button fx:id="addFilesButton" text="📁 Add Files" style="-fx-padding: 8 16; -fx-background-color: #9c27b0; -fx-text-fill: white; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;"/>
-                <Button fx:id="refreshButton" text="🔄 Refresh" style="-fx-padding: 8 14; -fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;"/>
-                <Button fx:id="analyzeButton" text="🔍 Analyze" style="-fx-padding: 8 14; -fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;"/>
-                <Button fx:id="newFolderButton" text="📁+" style="-fx-padding: 8 14; -fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;"/>
+                <Button text="Refresh" styleClass="icon-btn"/>
+                <Button text="..." styleClass="icon-btn"/>
 
-                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="addFilesBtn" text="+ Add Files" styleClass="primary-btn" onAction="#handleAddFiles"/>
+                <Button fx:id="analyzeBtn" text="Analyze" styleClass="primary-btn" onAction="#handleAnalyze"/>
             </HBox>
 
-            <HBox style="-fx-padding: 8 20; -fx-background-color: #0a0a0a;">
-                <Label text="📂" style="-fx-font-size: 14px; -fx-text-fill: #9c27b0;"/>
-                <Label fx:id="currentPathLabel" text="Select a folder..." style="-fx-text-fill: #b0b0b0; -fx-font-size: 11px; -fx-padding: 0 0 0 10;"/>
+            <HBox style="-fx-padding: 0 20 15 20;">
+                <TextField fx:id="searchField" promptText="Search files, genres, or content..." HBox.hgrow="ALWAYS" styleClass="search-field"/>
             </HBox>
 
-            <HBox style="-fx-padding: 8 20 12 20;" spacing="10">
-                <TextField fx:id="searchBar" promptText="🔍 Search..." style="-fx-control-inner-background: #1a1a1a; -fx-text-fill: #ffffff; -fx-padding: 8; -fx-pref-width: 250; -fx-border-color: #3a3a3a; -fx-border-radius: 4; -fx-background-radius: 4;"/>
-            </HBox>
         </VBox>
     </top>
 
+    <left>
+        <VBox spacing="20" styleClass="sidebar" prefWidth="240">
+
+            <VBox spacing="5" VBox.vgrow="ALWAYS">
+                <Label text="QUICK ACCESS" styleClass="section-header"/>
+                <TreeView fx:id="directoryTree" VBox.vgrow="ALWAYS" styleClass="tree-view"/>
+            </VBox>
+
+            <Button fx:id="selectedFilesBtn" text="Selected Files" maxWidth="Infinity" styleClass="primary-btn"/>
+
+            <VBox spacing="5">
+                <Label text="BOOKMARKS" styleClass="section-header"/>
+            </VBox>
+
+            <VBox spacing="10">
+                <Label text="AI FEATURES" styleClass="section-header"/>
+                <Button fx:id="discoveryBtn" text="Discovery Mode" maxWidth="Infinity" styleClass="ai-feature-btn" onAction="#handleDiscoveryMode"/>
+                <Button fx:id="visualizerBtn" text="3D Visualizer" maxWidth="Infinity" styleClass="ai-feature-btn" onAction="#handleVisualizer"/>
+            </VBox>
+
+        </VBox>
+    </left>
+
     <center>
-        <SplitPane dividerPositions="0.20, 0.65">
-
-            <VBox style="-fx-background-color: #0a0a0a; -fx-border-color: #3a3a3a; -fx-border-width: 0 1 0 0;" spacing="10">
-                <padding><Insets top="10" left="10" right="10" bottom="10"/></padding>
-
-                <Label text="QUICK ACCESS" style="-fx-font-size: 11px; -fx-text-fill: #9c27b0; -fx-font-weight: 700;"/>
-                <TreeView fx:id="folderTreeView" VBox.vgrow="ALWAYS" style="-fx-control-inner-background: #0a0a0a; -fx-padding: 5;"/>
-
-                <Region minHeight="15"/>
-
-                <Button fx:id="selectedFilesButton" text="📋 Selected Files" maxWidth="Infinity" prefHeight="44" style="-fx-background-color: #9c27b0; -fx-text-fill: white; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;">
-                    <tooltip>
-                        <Tooltip text="Show only files selected for analysis"/>
-                    </tooltip>
-                </Button>
-
-                <Region minHeight="20"/>
-
-                <Label text="BOOKMARKS" style="-fx-font-size: 11px; -fx-text-fill: #9c27b0; -fx-font-weight: 700;"/>
-                <VBox fx:id="bookmarksContainer" spacing="6"/>
-
-                <Region minHeight="20"/>
-
-                <Label text="AI FEATURES" style="-fx-font-size: 11px; -fx-text-fill: #9c27b0; -fx-font-weight: 700;"/>
-
-                <VBox spacing="8">
-                    <Button fx:id="discoveryModeButton" text="🔮 Discovery" maxWidth="Infinity" alignment="CENTER_LEFT" prefHeight="40" style="-fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding-left: 12;"/>
-                    <Button fx:id="visualizerButton" text="📊 Visualizer" maxWidth="Infinity" alignment="CENTER_LEFT" prefHeight="40" style="-fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding-left: 12;"/>
-                </VBox>
-            </VBox>
-
-            <VBox style="-fx-background-color: #0a0a0a;">
-                <TableView fx:id="fileTableView" VBox.vgrow="ALWAYS" style="-fx-control-inner-background: #0a0a0a; -fx-font-size: 11px;">
-                    <columns>
-                        <TableColumn fx:id="nameColumn" text="📄 Name" prefWidth="350"/>
-                        <TableColumn fx:id="genreColumn" text="📁 Type" prefWidth="150"/>
-                        <TableColumn fx:id="dateColumn" text="📅 Date Modified" prefWidth="200"/>
-                    </columns>
-                    <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                    </columnResizePolicy>
-                </TableView>
-            </VBox>
-
-            <ScrollPane style="-fx-background-color: #0a0a0a; -fx-border-color: #3a3a3a; -fx-border-width: 0 0 0 1;" fitToWidth="true">
-                <VBox spacing="15" style="-fx-padding: 15; -fx-background-color: #0a0a0a;">
-
-                    <VBox fx:id="emptyStatePanel" alignment="CENTER" spacing="15" VBox.vgrow="ALWAYS" minHeight="300">
-                        <Label text="📊" style="-fx-font-size: 48px;"/>
-                        <Label text="No Files Selected" style="-fx-font-size: 16px; -fx-text-fill: #b0b0b0; -fx-font-weight: 700;"/>
-                        <Label text="Click 'Add Files' to analyze" style="-fx-font-size: 12px; -fx-text-fill: #6e6e6e;"/>
-                    </VBox>
-
-                    <VBox fx:id="analysisResultsPanel" spacing="15" visible="false" managed="false">
-
-                        <VBox style="-fx-background-color: #1a1a1a; -fx-border-color: #3a3a3a; -fx-border-width: 1; -fx-padding: 12; -fx-border-radius: 4;">
-                            <Label text="📊 File Statistics" style="-fx-font-size: 13px; -fx-text-fill: #9c27b0; -fx-font-weight: 700;"/>
-                            <Separator style="-fx-padding: 8 0;"/>
-                            <HBox spacing="30" style="-fx-padding: 8 0 0 0;">
-                                <VBox>
-                                    <Label text="Total Files" style="-fx-font-size: 11px; -fx-text-fill: #b0b0b0;"/>
-                                    <Label fx:id="totalFilesLabel" text="0" style="-fx-font-size: 18px; -fx-text-fill: #9c27b0; -fx-font-weight: 700;"/>
-                                </VBox>
-                                <VBox>
-                                    <Label text="Types Found" style="-fx-font-size: 11px; -fx-text-fill: #b0b0b0;"/>
-                                    <Label fx:id="genreCountLabel" text="0" style="-fx-font-size: 18px; -fx-text-fill: #9c27b0; -fx-font-weight: 700;"/>
-                                </VBox>
-                            </HBox>
-                        </VBox>
-
-                        <VBox style="-fx-background-color: #1a1a1a; -fx-border-color: #3a3a3a; -fx-border-width: 1; -fx-padding: 12; -fx-border-radius: 4;">
-                            <Label text="🎭 Detected Types" style="-fx-font-size: 13px; -fx-text-fill: #9c27b0; -fx-font-weight: 700;"/>
-                            <Separator style="-fx-padding: 8 0;"/>
-                            <ScrollPane style="-fx-background-color: transparent; -fx-padding: 8 0 0 0;" fitToWidth="true" prefHeight="200">
-                                <VBox fx:id="genresContent" spacing="6"/>
-                            </ScrollPane>
-                        </VBox>
-                        <Button fx:id="visualizeButton" text="📈 VISUALIZE" maxWidth="Infinity" prefHeight="46" style="-fx-background-color: #9c27b0; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: 700; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;"/>
-                        <Button fx:id="switchDiscoveryButton" text="🔮 Discovery Mode" maxWidth="Infinity" prefHeight="42" style="-fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-radius: 4; -fx-background-radius: 4;"/>
-                    </VBox>
-                </VBox>
-            </ScrollPane>
-
-        </SplitPane>
+        <TableView fx:id="fileTable" styleClass="file-table">
+            <columns>
+                <TableColumn text="Name" prefWidth="300" fx:id="nameCol"/>
+                <TableColumn text="Genre" prefWidth="150" fx:id="genreCol"/>
+                <TableColumn text="Date Modified" prefWidth="200" fx:id="dateCol"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
     </center>
 
+    <right>
+        <VBox spacing="20" styleClass="right-panel" prefWidth="280">
+
+            <VBox styleClass="info-card" spacing="15">
+                <Label text="File Statistics" styleClass="card-title"/>
+                <HBox>
+                    <Label text="Total Files:" style="-fx-text-fill: #94a3b8;" prefWidth="100"/>
+                    <Label fx:id="totalFilesLabel" text="0" style="-fx-text-fill: #f8fafc; -fx-font-weight: bold;"/>
+                </HBox>
+                <HBox>
+                    <Label text="Genres Found:" style="-fx-text-fill: #94a3b8;" prefWidth="100"/>
+                    <Label fx:id="totalGenresLabel" text="0" style="-fx-text-fill: #f8fafc; -fx-font-weight: bold;"/>
+                </HBox>
+            </VBox>
+
+            <VBox styleClass="info-card" spacing="15" VBox.vgrow="ALWAYS">
+                <Label text="Detected Genres" styleClass="card-title"/>
+
+                <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-width: 0;" VBox.vgrow="ALWAYS">
+                    <VBox fx:id="genreListContainer" spacing="12">
+                    </VBox>
+                </ScrollPane>
+            </VBox>
+
+        </VBox>
+    </right>
+
     <bottom>
-        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #1a1a1a; -fx-border-color: #3a3a3a; -fx-border-width: 1 0 0 0; -fx-padding: 10 15;">
-            <Label fx:id="statusLabel" text="Ready" style="-fx-font-size: 11px; -fx-text-fill: #b0b0b0;"/>
-            <Separator orientation="VERTICAL" prefHeight="16"/>
-            <Label fx:id="selectionLabel" text="0 files selected" style="-fx-font-size: 11px; -fx-text-fill: #b0b0b0;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Label text="Synonym v2.0" style="-fx-font-size: 10px; -fx-text-fill: #6e6e6e;"/>
+        <HBox styleClass="status-bar" spacing="20" alignment="CENTER_LEFT">
+            <Label text="System Ready" styleClass="status-text"/>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label text="Synonym v2.0" styleClass="status-text"/>
         </HBox>
     </bottom>
+
 </BorderPane>
