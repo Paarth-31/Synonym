@@ -1,0 +1,15 @@
+.page   { display:flex; flex-direction:column; height:100vh; background:var(--bg0); overflow:hidden; }
+.topbar { display:flex; align-items:center; gap:12px; padding:0 20px; height:52px; background:var(--bg1); border-bottom:1px solid var(--border); flex-shrink:0; }
+.logo   { font-family:var(--font-display); font-size:16px; font-weight:800; color:var(--text0); padding-right:16px; border-right:1px solid var(--border); }
+.logo span { color:var(--accent); }
+.vizTitle { font-family:var(--font-display); font-size:14px; font-weight:700; }
+.btn    { padding:7px 14px; background:var(--bg2); color:var(--text1); border:1px solid var(--border); border-radius:var(--r-sm); font-size:12px; font-weight:600; transition:all .12s; }
+.btn:hover { color:var(--text0); border-color:var(--border2); }
+.back:hover { color:var(--accent2); border-color:var(--accent); }
+.hint   { padding:8px 20px; font-size:12px; color:var(--text2); background:var(--bg1); border-bottom:1px solid var(--border); flex-shrink:0; font-family:var(--font-mono); }
+.canvas { flex:1; display:block; cursor:grab; }
+.canvas:active { cursor:grabbing; }
+.tooltip { position:fixed; pointer-events:none; z-index:100; background:var(--bg2); border:1px solid var(--border2); border-radius:var(--r-sm); padding:10px 14px; box-shadow:var(--shadow); max-width:240px; }
+.ttName  { font-weight:600; color:var(--text0); margin-bottom:3px; font-size:13px; word-break:break-all; }
+.ttGenre { font-size:11px; color:var(--accent2); margin-bottom:2px; }
+.ttKw    { font-size:11px; color:var(--text2); font-family:var(--font-mono); }

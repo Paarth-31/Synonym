@@ -1,0 +1,43 @@
+.page {
+  display: flex; align-items: center; justify-content: center;
+  height: 100vh; background: var(--bg0);
+  background-image:
+    radial-gradient(ellipse 60% 60% at 20% 50%, rgba(124,92,252,.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(91,63,212,.06) 0%, transparent 70%);
+}
+.card {
+  width: 420px; padding: 48px 44px;
+  background: var(--bg1); border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: var(--shadow), var(--glow);
+  display: flex; flex-direction: column;
+}
+.logo { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--text0); margin-bottom: 4px; }
+.logo span { color: var(--accent); }
+.tagline { font-size: 12px; color: var(--text2); margin-bottom: 36px; font-family: var(--font-mono); }
+.title   { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 24px; }
+.err     { font-size: 12px; color: var(--rose); margin-bottom: 14px; font-family: var(--font-mono); min-height: 18px; }
+.label   { font-size: 11px; font-weight: 600; color: var(--text1); margin-bottom: 6px; letter-spacing: .04em; text-transform: uppercase; margin-top: 12px; }
+.input   { width: 100%; padding: 10px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r-sm); color: var(--text0); transition: border-color .15s; font-size: 13px; }
+.input:focus { border-color: var(--accent); outline: none; }
+.input::placeholder { color: var(--text2); }
+.btnPrimary {
+  margin-top: 20px; width: 100%; padding: 12px;
+  background: var(--accent); color: #fff; border-radius: var(--r-sm);
+  font-family: var(--font-display); font-size: 13px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; transition: all .15s;
+}
+.btnPrimary:hover:not(:disabled) { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,92,252,.3); }
+.btnPrimary:disabled { opacity: .6; cursor: not-allowed; }
+.btnGhost {
+  margin-top: 10px; width: 100%; padding: 12px;
+  background: var(--bg2); color: var(--text1); border: 1px solid var(--border);
+  border-radius: var(--r-sm); font-family: var(--font-display); font-size: 13px;
+  font-weight: 700; letter-spacing: .06em; text-transform: uppercase; transition: all .15s;
+}
+.btnGhost:hover { color: var(--text0); border-color: var(--border2); }
+.link { text-align: center; margin-top: 24px; font-size: 12px; color: var(--text2); }
+.link button { color: var(--accent); font-weight: 600; }
+.link button:hover { color: var(--accent2); }
+.strengthWrap { height: 3px; background: var(--bg3); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+.strengthBar  { height: 100%; border-radius: 3px; transition: width .3s, background .3s; }
+.strengthLabel { font-size: 10px; margin-top: 4px; font-family: var(--font-mono); }

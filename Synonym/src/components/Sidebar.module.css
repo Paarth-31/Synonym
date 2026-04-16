@@ -1,0 +1,68 @@
+.sidebar {
+  width: 240px; flex-shrink: 0; background: var(--bg1);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow-y: auto; overflow-x: hidden; padding-bottom: 12px;
+}
+
+/* Logo */
+.logoArea {
+  display: flex; align-items: center; gap: 10px;
+  padding: 15px 14px 13px; border-bottom: 1px solid var(--border);
+  margin-bottom: 6px; flex-shrink: 0;
+}
+.logoText {
+  font-family: var(--font-display); font-size: 15px; font-weight: 800;
+  letter-spacing: .08em; line-height: 1;
+  background: linear-gradient(135deg, #1E88E5, #26C6DA);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.logoSub { font-size: 9px; color: var(--text2); font-family: var(--font-mono); margin-top: 3px; }
+
+/* Sections */
+.section      { padding: 0 8px; margin-bottom: 4px; }
+.sectionLabel { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text2); padding: 8px 6px 4px; }
+.emptyNote    { font-size: 11px; color: var(--text2); padding: 4px 6px; font-family: var(--font-mono); opacity: .55; }
+
+/* Nav items */
+.item {
+  display: flex; align-items: center; gap: 8px; padding: 6px 8px;
+  border-radius: 6px; color: var(--text1); cursor: pointer;
+  transition: background .1s, color .1s; font-size: 12.5px; user-select: none;
+}
+.item:hover       { background: var(--bg2); color: var(--text0); }
+.item.active      { background: rgba(30,136,229,.14); color: #42A5F5; }
+.item svg         { opacity: .65; flex-shrink: 0; }
+.item.active svg  { opacity: 1; }
+.itemLabel { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.divider { height: 1px; background: var(--border); margin: 6px 14px; }
+
+/* AI buttons */
+.aiBtn {
+  display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 6px;
+  font-size: 12px; font-weight: 600; color: var(--text1); border: 1px solid var(--border);
+  cursor: pointer; transition: all .15s; margin-bottom: 4px;
+}
+.aiBtn:hover { color: var(--text0); border-color: #1E88E5; background: rgba(30,136,229,.08); }
+.aiDot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: linear-gradient(135deg, #1E88E5, #26C6DA);
+  box-shadow: 0 0 6px rgba(30,136,229,.6); flex-shrink: 0;
+}
+
+/* Bookmarks */
+.bookmark {
+  display: flex; align-items: center; gap: 6px; padding: 5px 8px;
+  font-family: var(--font-mono); font-size: 10.5px; color: var(--text2);
+  border-radius: 6px; cursor: pointer; transition: all .1s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.bookmark:hover { background: var(--bg2); color: var(--text1); }
+.bookmark span  { overflow: hidden; text-overflow: ellipsis; }
+.addBookmark {
+  display: flex; align-items: center; gap: 6px; padding: 5px 8px; font-size: 11px;
+  color: var(--text2); border-radius: 6px; border: 1px dashed var(--border);
+  cursor: pointer; transition: all .1s; width: 100%; margin-top: 4px;
+}
+.addBookmark:hover { color: #42A5F5; border-color: #1E88E5; }

@@ -1,0 +1,27 @@
+# Tauri build output
+src-tauri/target/
+node_modules/
+dist/
+
+# Credentials
+config.properties
+
+# ML model (too large for git)
+python/genre_classifier.pkl
+src/resources/genre_classifier.pkl
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+myenv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
